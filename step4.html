@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $.post("http://challenge.code2040.org/api/prefix",
+        {
+          token: "699bcecddeae997b3704500ade8ca863",
+        },
+        function(res){
+						validate(res.prefix, res.array);
+        });
+    });
+});
+
+function validate(pre, arr) {
+	var p = pre.length;
+	var arr2 = new Array();
+	for(var i = 0; i < arr.length; ++i){
+		
+		if(!arr[i].startsWith(pre)){
+			arr2.push(arr[i]);
+		}
+	}
+	send(arr2);
+}
+	
+function send(s){
+		$.post("http://challenge.code2040.org/api/prefix/validate",
+	{
+		token: "699bcecddeae997b3704500ade8ca863",
+		array: s
+	},
+	function(response){
+		alert(response);
+	});
+}
+	
+</script>
+</head>
+<body>
+
+<button>Send an HTTP POST request to a page and get the result back</button>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $.post("http://challenge.code2040.org/api/dating",
+        {
+          token: "699bcecddeae997b3704500ade8ca863",
+        },
+        function(res){
+//					alert(res.datestamp + " || " + res.interval);
+					process(res.datestamp, res.interval);
+
+        });
+    });
+});
+
+function process(str, inter){
+	// parse data string
+	// ex: 2016-10-08T04:22:02Z
+	var res = str.split('T');     // date, time
+	var date = res[0].split('-'); // year, month, day
+	var time = res[1].split(':'); // hour, minute, secondsz
+	time[2] = time[2].slice(0,2); // hour, minute, seconds
+	
+	var sec = parseInt(time[0],10)*3600 + parseInt(time[1],10)*60 + parseInt(time[2],10); // convert time -> seconds
+
+	// process interval
+	var t_arr = pro_time(sec + inter); // day,hr, min, seconds
+	var days = parseInt(date[2],10)+t_arr[0]; // add days together
+	
+	// create string output
+	var result = (date[0] + "-" + date[1] + "-" + pad(days) + "T" + 
+								pad(t_arr[1]) + ":" + pad(t_arr[2]) + ":" + pad(t_arr[3]) + "Z");
+	validate(result);
+}
+
+function pad(d) {
+    return (d < 10) ? '0' + d.toString() : d.toString();
+}
+	
+function pro_time(t){
+	var time_arr = new Array();
+	
+	//days
+	var d = t%(3600*24);
+	time_arr.push((t-d)/(3600*24));
+	// hours
+	var h = d%(60*60); 
+	time_arr.push((d - h)/(60*60));
+	// mins
+	var m = h%60; 
+	time_arr.push((h - m)/60);
+	//sec
+	time_arr.push(m); 
+	
+	return time_arr;
+}	
+	
+function validate(s){
+		$.post("http://challenge.code2040.org/api/dating/validate",
+	{
+		token: "699bcecddeae997b3704500ade8ca863",
+		datestamp: s // string
+	},
+	function(response){
+		alert(response);
+	});
+}
+	
+</script>
+</head>
+<body>
+
+<button>Send an HTTP POST request to a page and get the result back</button>
+
+</body>
+</html>
