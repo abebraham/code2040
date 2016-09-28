@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Code2040 Challenge</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+ 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		
+		<script>
+		$(document).ready(function(){
+				$("button").click(function(){
+						$.post("http://challenge.code2040.org/api/prefix",
+						{
+							token: "699bcecddeae997b3704500ade8ca863",
+						},
+						function(res){
+								validate(res.prefix, res.array);
+						});
+				});
+		});
+
+		function validate(pre, arr) {
+			var p = pre.length;
+			var arr2 = new Array();
+			for(var i = 0; i < arr.length; ++i){
+
+				if(!arr[i].startsWith(pre)){
+					arr2.push(arr[i]);
+				}
+			}
+			send(arr2);
+		}
+
+		function send(s){
+				$.post("http://challenge.code2040.org/api/prefix/validate",
+			{
+				token: "699bcecddeae997b3704500ade8ca863",
+				array: s
+			},
+			function(response){
+				document.getElementById("result").innerHTML="Result: " + response;
+			});
+		}
+	
+		</script> 
+  </head>
+
+  <body>
+		<nav>
+			<button class="button" id="result">Test Step04 - prefix</button>
+			<div class="left">
+				<a href="" class="prev"></a>
+				<a href="step2.html">2</a>
+				<a href="step3.html">3</a>
+				<span class="line"></span>
+			</div>
+			<div class="right">
+				<a href="" class="next"></a>
+				<a href="step5.html">5</a>
+				<span class="line"></span>
+			 </div>
+		</nav>
+  </body>
+</html>

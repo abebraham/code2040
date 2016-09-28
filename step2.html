@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Code2040 Challenge</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+ 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script>
+			$(document).ready(function(){
+					$("button").click(function(){
+							$.post("http://challenge.code2040.org/api/reverse",
+							{
+								token: "699bcecddeae997b3704500ade8ca863"
+							},
+							function(result){
+									reverse(result);
+							});
+					});
+			});
+
+			function reverse(s) {
+				var str = s.split('').reverse().join('');
+				$.post("http://challenge.code2040.org/api/reverse/validate",
+				{
+					token: "699bcecddeae997b3704500ade8ca863",
+					string: str
+				},
+				function(response){
+					document.getElementById("result").innerHTML="Result: " + response;
+				});
+			}
+		</script>   
+  </head>
+
+  <body>
+		<nav>
+			<button class="button" id="result">Test Step02 - reverse</button>
+			<div class="left">
+				<a href="" class="prev"></a>
+				<a href="step1.html">1</a>
+				<span class="line"></span>
+			</div>
+			<div class="right">
+				<a href="" class="next"></a>
+				<a href="step3.html">3</a>
+				<a href="step4.html">4</a>
+				<a href="step5.html">5</a>
+				<span class="line"></span>
+			 </div>
+		</nav>
+  </body>
+</html>
